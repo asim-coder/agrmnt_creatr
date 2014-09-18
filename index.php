@@ -1,19 +1,22 @@
 <?php 
 if(isset($_POST["submit"]))
 {
-$company = $_POST["company"];
-$address = $_POST["address"];
-$email = $_POST["email"];
-$telephone = $_POST["telephone"];
-$number = $_POST["number"];
-$item = $_POST["item"];
-$price = $_POST["price"];
-$vat = $_POST["vat"];
-$bank = $_POST["bank"];
-$iban = $_POST["iban"];
-$paypal = $_POST["paypal"];
-$com = $_POST["com"];
-$pay = 'Payment information';
+$location = $_POST["location"];
+$day = $_POST["day"];
+$month = $_POST["month"];
+$year = $_POST["year"];
+$landlord = $_POST["landlord"];
+$tenant = $_POST["tenant"];
+$pr_no = $_POST["pr_no"];
+$pr_str = $_POST["pr_str"];
+$pr_city = $_POST["pr_city"];
+$term_beg = $_POST["term_beg"];
+$term_end = $_POST["term_end"];
+$pay_amt = $_POST["pay_amt"];
+$pay_date = $_POST["pay_date"];
+$utils = $_POST["utils"];
+$depo = $_POST["depo"];
+$pay = '';
 $price = str_replace(",",".",$price);
 $vat = str_replace(",",".",$vat);
 $p = explode(" ",$price);
@@ -73,33 +76,33 @@ $pdf->AliasNbPages();
 $pdf->AddPage();
 $pdf->SetFont('Times','',12);
 $pdf->SetTextColor(32);
-$pdf->Cell(0,5,$company,0,1,'R');
-$pdf->Cell(0,5,$address,0,1,'R');
-$pdf->Cell(0,5,$email,0,1,'R');
-$pdf->Cell(0,5,'Tel: '.$telephone,0,1,'R');
+$pdf->Cell(0,5,$landlord,0,1,'R');
+$pdf->Cell(0,5,$tenant,0,1,'R');
+$pdf->Cell(0,5,$pay_amt,0,1,'R');
+$pdf->Cell(0,5,'Tel: '.$pay_date,0,1,'R');
 $pdf->Cell(0,30,'',0,1,'R');
 $pdf->SetFillColor(200,220,255);
-$pdf->ChapterTitle('Invoice Number ',$number);
-$pdf->ChapterTitle('Invoice Date ',date('d-m-Y'));
+$pdf->ChapterTitle('Agreement Duration',$term_beg," - ", $term_end);
+$pdf->ChapterTitle('Deposit : ',$depo);
 $pdf->Cell(0,20,'',0,1,'R');
 $pdf->SetFillColor(224,235,255);
 $pdf->SetDrawColor(192,192,192);
-$pdf->Cell(170,7,'Item',1,0,'L');
-$pdf->Cell(20,7,'Price',1,1,'C');
-$pdf->Cell(170,7,$item,1,0,'L',0);
-$pdf->Cell(20,7,$price,1,1,'C',0);
+$pdf->Cell(170,7,'Details of Property',1,0,'L');
+$pdf->Cell(20,7,'Value',1,1,'C');
+$pdf->Cell(170,7,$pr_no,1,0,'L',0);
+$pdf->Cell(20,7,$pr_str,1,1,'C',0);
 $pdf->Cell(0,0,'',0,1,'R');
-$pdf->Cell(170,7,'VAT',1,0,'R',0);
-$pdf->Cell(20,7,$vat,1,1,'C',0);
-$pdf->Cell(170,7,'Total',1,0,'R',0);
-$pdf->Cell(20,7,$re." $",1,0,'C',0);
+$pdf->Cell(170,7,'Property City',1,0,'L',0);
+$pdf->Cell(20,7,$pr_city,1,1,'C',0);
+$pdf->Cell(170,7,'Location',1,0,'R',0);
+$pdf->Cell(20,7,$location,1,0,'C',0);
 $pdf->Cell(0,20,'',0,1,'R');
 $pdf->Cell(0,5,$pay,0,1,'L');
 $pdf->Cell(0,5,$bank,0,1,'L');
 $pdf->Cell(0,5,$iban,0,1,'L');
 $pdf->Cell(0,20,'',0,1,'R');
-$pdf->Cell(0,5,'PayPal:',0,1,'L');
-$pdf->Cell(0,5,$paypal,0,1,'L');
+$pdf->Cell(0,5,'Utilities offered:',0,1,'L');
+$pdf->Cell(0,5,$utils,0,1,'L');
 $pdf->Cell(190,40,$com,0,0,'C');
 $filename="invoice.pdf";
 $pdf->Output($filename,'F');
@@ -109,7 +112,7 @@ $pdf->Output($filename,'F');
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-<title>Create a PDF invoice with PHP</title>
+<title>Make Your Agreement</title>
 <style>
 body{background-image:url(img/bg.jpg);
 }
@@ -194,32 +197,33 @@ margin-top:10px;
 
 <body>
 <div id="content">
-<div id="title" align="center">Create a PDF invoice with PHP</div>
+<div id="title" align="center">Create your agreement</div>
 <div id="body">
 <form action="" method="post" enctype="multipart/form-data">
 <div id="body_l">
-<div id="name"><input name="company" placeholder="Insert here your Company Name" type="text" /></div>
-<div id="name"><input name="address" placeholder="Insert here your Company Address" type="text" /></div>
-<div id="name"><input name="email" placeholder="Insert here your Email" type="text" /></div>
-<div id="name"><input name="telephone" placeholder="Insert here your telephone number" type="text" /></div>
-<div id="name"><input name="number" placeholder="Invoice number" type="text" /></div>
-<div id="name"><input name="item" placeholder="Item" type="text" /></div>
+<div id="name"><input name="location" placeholder="Insert location" type="text" /></div>
+<div id="name"><input name="month" placeholder="Insert month" type="text" /></div>
+<div id="name"><input name="year" placeholder="Insert year" type="text" /></div>
+<div id="name"><input name="landlord" placeholder="Landlord" type="text" /></div>
+<div id="name"><input name="tenant" placeholder="Tenant" type="text" /></div>
+<div id="name"><input name="pr_no" placeholder="Property Number" type="text" /></div>
+<div id="name"><input name="pr_str" placeholder="Property Street" type="text" /></div>
+<div id="name"><input name="pr_city" placeholder="Property City" type="text" /></div>
 </div>
 <div id="body_r">
-<div id="name"><input name="price" placeholder="Insert here price" type="text" /></div>
-<div id="name"><input name="vat" placeholder="Insert here your VAT" type="text" /></div>
-<div id="name"><input name="bank" placeholder="Insert the name of your Bank" type="text" /></div>
-<div id="name"><input name="iban" placeholder="Insert here your IBAN number" type="text" /></div>
-<div id="name"><input name="paypal" placeholder="Insert here your PayPal address" type="text" /></div>
-<div id="name"><input name="com" placeholder="Add a comment" type="text" /></div>
+<div id="name"><input name="term_beg" placeholder="Term Begins on" type="text" /></div>
+<div id="name"><input name="term_end" placeholder="Term ends" type="text" /></div>
+<div id="name"><input name="pay_amt" placeholder="Paying Amount" type="text" /></div>
+<div id="name"><input name="pay_date" placeholder="Date of pay" type="text" /></div>
+<div id="name"><input name="utils" placeholder="Utilities offering by Landlord" type="text" /></div>
+<div id="name"><input name="Depo" placeholder="Deposited acknowledged" type="text" /></div>
 </div>
-<div id="up" align="center"><input name="file" disabled="disabled" type="file" /></div>
-<div id="up" align="center"><input name="submit" style="margin-top:60px;" value="Create your Invoice" type="submit" /><br /><br />
+<div id="up" align="center"><input name="submit" style="margin-top:60px;" value="Create your Agreement" type="submit" /><br /><br />
 
 <?php 
 if(isset($_POST["submit"]))
 {
-echo'<a href="invoice.pdf">Download your Invoice</a>';
+echo'<a href="invoice.pdf">Download your Agreement</a>';
 }
 ?>
 </div>
